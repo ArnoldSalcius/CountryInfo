@@ -6,17 +6,24 @@ const randomInterval = (min: number, max: number) => {
 };
 
 
-export const RandomCountry = () => {
+export const randomCountry = () => {
     const random = randomInterval(0, countryNames.length -1);
-    console.log(random);
     const randomCountry = countryNames[random];
-    console.log(countryNames[random]);
     return randomCountry
     
 }
 
-export const findCountry = (limit = 0) => {
+export const findCountry = ( search: string, limit = 0) => {
 
     const foundCountries = countryNames.filter(country => {
+        //check if any of the countries include the search term
+        //improve to return more relevant results
+        return country.name.toLowerCase().includes(search.toLowerCase());
     })
+
+    return foundCountries;
+}
+
+export const countryExists = (search: string) => {
+    return countryNames.find(country => country.code.toLowerCase() === search.toLowerCase()) !== undefined;
 }

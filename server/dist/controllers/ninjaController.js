@@ -12,25 +12,54 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCountry = exports.getRandomCountry = void 0;
+exports.searchCountryNames = exports.getCountry = exports.getRandomCountry = void 0;
 const ninjas_1 = __importDefault(require("../api/ninjas"));
 const ninjaApi_1 = require("../utils/ninjaApi");
 const getRandomCountry = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const country = (0, ninjaApi_1.randomCountry)();
+    const response = yield ninjas_1.default.get('/country', {
+        params: {
+            name: country.code
+        }
+    });
+    return res.json(response.data);
 });
 exports.getRandomCountry = getRandomCountry;
-const getCountry = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const country = req.query.country;
-    if (req.query.country) {
-        const country = req.query.country;
+const searchCountryNames = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const search = req.query.name;
+    if (search.length > 2) {
+        if (typeof search !== 'string') {
+            return res.status(500).json({ error: 'Invalid search query. (Strings only)' });
+        }
+        const countries = (0, ninjaApi_1.findCountry)(search);
+        return res.json({ success: true, results: countries.length, data: countries, });
     }
     else {
-        const country = (0, ninjaApi_1.RandomCountry)();
-        const response = yield ninjas_1.default.get('/country', {
-            params: {
-                name: country.code
-            }
-        });
-        return res.json(response.data);
+        return res.status(400).json({ error: 'Please provide at least 3 character for name parameter' });
+    }
+});
+exports.searchCountryNames = searchCountryNames;
+const getCountry = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const countryCode = req.params.countryCode;
+    if (countryCode.length !== 2) {
+        return res.status(400).json({ error: 'Country code provided must be of length 2.' });
+    }
+    if ((0, ninjaApi_1.countryExists)(countryCode)) {
+        try {
+            const resp = yield ninjas_1.default.get('/country', {
+                params: {
+                    name: countryCode
+                }
+            });
+            const countryInfo = resp.data;
+            return res.json({ success: true, data: countryInfo });
+        }
+        catch (e) {
+            return res.json({ error: 'Something went wrong retrieving country info' });
+        }
+    }
+    else {
+        return res.status(400).json({ error: 'Cannot find this country code on file.' });
     }
 });
 exports.getCountry = getCountry;

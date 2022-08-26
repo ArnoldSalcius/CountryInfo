@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const ninjaController_1 = require("../controllers/ninjaController");
-router.get('/country', ninjaController_1.getCountry);
+router.get('/country', ninjaController_1.getRandomCountry);
+router.get('/country/search', ninjaController_1.searchCountryNames);
+router.get('/country/:countryCode', ninjaController_1.getCountry);
 exports.default = router;
 //# sourceMappingURL=routes.js.map
