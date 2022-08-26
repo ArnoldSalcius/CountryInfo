@@ -1,0 +1,1 @@
+{"version":3,"file":"ninjas.js","sourceRoot":"","sources":["../../src/api/ninjas.ts"],"names":[],"mappings":";;;;;AAAA,kDAAgD;AAEhD,MAAM,MAAM,GAAG,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC;AAEnC,MAAM,MAAM,GAAuB;IAC/B,OAAO,EAAE,+BAA+B;IACxC,OAAO,EAAE,EAAE,WAAW,EAAE,MAAM,EAAC;CAClC,CAAA;AAGD,kBAAe,eAAK,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC"}
