@@ -22,7 +22,7 @@ const getRandomCountry = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             name: country.code
         }
     });
-    return res.json(response.data);
+    return res.json(response.data[0]);
 });
 exports.getRandomCountry = getRandomCountry;
 const searchCountryNames = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

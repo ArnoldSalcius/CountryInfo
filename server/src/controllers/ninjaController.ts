@@ -12,7 +12,7 @@ const getRandomCountry = async (req: Request, res: Response, next: NextFunction)
         }
     });
     
-    return res.json(response.data);
+    return res.json(response.data[0]);
 }
 
 

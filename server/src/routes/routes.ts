@@ -1,15 +1,10 @@
-
 import express from 'express';
+import countryRoutes from './countryRoutes';
+
 const router = express.Router();
-import {getRandomCountry, getCountry, searchCountryNames} from '../controllers/ninjaController';
 
 
-
-router.get('/country', getRandomCountry);
-router.get('/country/search', searchCountryNames)
-router.get('/country/:countryCode', getCountry);
-
-
+router.use('/country', countryRoutes);
 
 
 export default router;
