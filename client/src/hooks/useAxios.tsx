@@ -1,16 +1,15 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
 import React, { useState } from "react";
-import { Method } from "../types";
+import { Method, Country } from "../types";
 
 interface Error {
 	error: Boolean;
 }
 
 //Todo next
-interface Country {}
 
 const useAxios = (axiosInstance: AxiosInstance) => {
-	const [data, setData] = useState(null);
+	const [data, setData] = useState<Country | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 
@@ -18,17 +17,14 @@ const useAxios = (axiosInstance: AxiosInstance) => {
 		setLoading(true);
 
 		try {
+			let response;
 			if (method !== undefined) {
-				const response = await axiosInstance[method](config.url || "/", config);
-				console.log("I ran");
-				console.log(response.data);
-
-				setData(response.data);
+				response = await axiosInstance[method](config.url || "/", config);
 			} else {
-				const response = await axiosInstance.request(config);
-				console.log("I ran");
-				console.log(response.data);
+				response = await axiosInstance.request(config);
 			}
+			setData(response.data);
+			setLoading(false);
 		} catch (e) {
 			console.log(e);
 			setError({ error: true });
