@@ -1,25 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import useAxios from "../../hooks/useAxios";
 import { apiInstance } from "../../api/api";
 
 const RobotTest = () => {
-	const [data, loading, error, fetchData] = useAxios(apiInstance);
-
+	const [data, loading, error, fetchData, abort] = useAxios(apiInstance);
+	const fetch = useCallback(fetchData, []);
 	useEffect(() => {
-		console.log("useeffect ran");
+		fetch(
+			{
+				url: "/api/v1/country",
+			},
+			"get"
+		);
 
-		const fetch = async () => {
-			await fetchData(
-				{
-					url: "/api/v1/country",
-				},
-				"get"
-			);
+		return () => {
+			abort();
 		};
-		fetch();
 	}, []);
 
-	return <div>{data ? data.capital : "capital"}</div>;
+	return (
+		<div>
+			<div>{data ? data.capital : "capital"}</div>
+			<div>{loading ? <h1>Loading</h1> : null}</div>
+			<button
+				onClick={() =>
+					fetchData(
+						{
+							url: "/api/v1/country",
+						},
+						"get"
+					)
+				}
+			>
+				Refetch Data
+			</button>
+		</div>
+	);
 };
 
 export default RobotTest;

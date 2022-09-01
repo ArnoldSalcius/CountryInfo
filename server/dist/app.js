@@ -9,6 +9,13 @@ const routes_1 = __importDefault(require("./routes/routes"));
 const PORT = process.env.PORT || 3001;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((req, res, next) => {
+    const pause = 500;
+    setTimeout(() => {
+        console.log('Pause of ' + pause + 'ms' + Math.random());
+        next();
+    }, 5000);
+});
 app.use('/api/v1', routes_1.default);
 app.listen(PORT, () => {
     console.log('server running on Port ' + PORT);
