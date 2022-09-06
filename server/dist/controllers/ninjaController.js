@@ -16,6 +16,7 @@ exports.searchCountryNames = exports.getCountry = exports.getRandomCountry = voi
 const ninjas_1 = __importDefault(require("../api/ninjas"));
 const ninjaApi_1 = require("../utils/ninjaApi");
 const getRandomCountry = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('Request: ' + Math.floor(Math.random() * 1000));
     const country = (0, ninjaApi_1.randomCountry)();
     const response = yield ninjas_1.default.get('/country', {
         params: {

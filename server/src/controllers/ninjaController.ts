@@ -5,6 +5,8 @@ import {randomCountry, findCountry, countryExists} from '../utils/ninjaApi';
 
 const getRandomCountry = async (req: Request, res: Response, next: NextFunction) =>{
 
+    console.log('Request: ' + Math.floor(Math.random() * 1000));
+    
     const country = randomCountry();
     const response = await ninjasApi.get('/country', {
         params: {

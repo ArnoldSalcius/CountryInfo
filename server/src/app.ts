@@ -10,14 +10,15 @@ const app = express();
 
 app.use(express.json());
 
+
+const pause = 500;
 app.use((req, res, next) => {
-    const pause = 500;
+    console.log('Pause of ' + pause + 'ms' + Math.random());
 
     setTimeout(() => {
-        console.log('Pause of ' + pause + 'ms' + Math.random());
         
         next();
-    }, 5000)
+    }, pause);
 })
 
 app.use('/api/v1', router);

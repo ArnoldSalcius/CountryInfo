@@ -1,39 +1,36 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import useAxios from "../../hooks/useAxios";
-import { apiInstance } from "../../api/api";
+import apiInstance from "../../api/api";
 
 const RobotTest = () => {
-	const [data, loading, error, fetchData, abort] = useAxios(apiInstance);
-	const fetch = useCallback(fetchData, []);
+	const [data, loading, error, fetchData] = useAxios(apiInstance);
+	const [toggle, setToggle] = useState(false);
+
 	useEffect(() => {
-		fetch(
+		const ctrl = new AbortController();
+		fetchData(
 			{
 				url: "/api/v1/country",
 			},
-			"get"
+			"get",
+			ctrl
 		);
-
 		return () => {
-			abort();
+			ctrl.abort();
 		};
-	}, []);
+	}, [toggle, fetch]);
 
 	return (
 		<div>
-			<div>{data ? data.capital : "capital"}</div>
-			<div>{loading ? <h1>Loading</h1> : null}</div>
 			<button
-				onClick={() =>
-					fetchData(
-						{
-							url: "/api/v1/country",
-						},
-						"get"
-					)
-				}
+				onClick={() => {
+					setToggle(!toggle);
+				}}
 			>
 				Refetch Data
 			</button>
+			<div>{data ? data.capital : "capital"}</div>
+			<div>{loading ? <h1>Loading</h1> : null}</div>
 		</div>
 	);
 };
