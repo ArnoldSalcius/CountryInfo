@@ -1,8 +1,10 @@
-import React, { useState } from "react";
 import useAxiosApi from "../hooks/useAxiosApi";
 
 const Test2 = () => {
-	const [data, loading, error, fetch] = useAxiosApi({ url: "/country" });
+	//This causes infinite useEffect loop
+	const config = { url: "/country" };
+
+	const [data, , , fetch] = useAxiosApi(config);
 	return (
 		<div>
 			<div>Test2</div>

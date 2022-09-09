@@ -1,25 +1,23 @@
-import React, { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import useAxios from "./useAxios";
 import apiInstance from "../api/api";
 import { AxiosRequestConfig } from "axios";
 
 const useAxiosApi = (config: AxiosRequestConfig) => {
-	const [data, loading, error, fetch] = useAxios(apiInstance);
+	const [data, loading, error, fetch, cancel] = useAxios(apiInstance);
 	const [toggle, setToggle] = useState(false);
-
 	const refetch = useCallback(() => {
 		setToggle(!toggle);
 	}, [toggle]);
+	const configRef = useRef(config);
 
 	useEffect(() => {
-		const ctrl = new AbortController();
-		config.signal = ctrl.signal;
-		fetch(config, undefined, ctrl);
+		fetch(configRef.current, undefined);
 
 		return () => {
-			ctrl.abort();
+			cancel();
 		};
-	}, [toggle]);
+	}, [toggle, fetch]);
 
 	return [data, loading, error, refetch] as const;
 };
