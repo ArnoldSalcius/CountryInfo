@@ -9,6 +9,7 @@ const randomInterval = (min: number, max: number) => {
 export const randomCountry = () => {
     const random = randomInterval(0, countryNames.length -1);
     const randomCountry = countryNames[random];
+    
     return randomCountry
     
 }

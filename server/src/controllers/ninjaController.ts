@@ -8,6 +8,8 @@ const getRandomCountry = async (req: Request, res: Response, next: NextFunction)
     console.log('Request: ' + Math.floor(Math.random() * 1000));
     
     const country = randomCountry();
+    console.log(country);
+    
     const response = await ninjasApi.get('/country', {
         params: {
             name: country.code

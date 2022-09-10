@@ -4,12 +4,14 @@ const Test2 = () => {
 	//This causes infinite useEffect loop
 	const config = { url: "/country" };
 
-	const [data, , , fetch] = useAxiosApi(config);
+	const [data, loading, , fetch] = useAxiosApi(config);
 	return (
 		<div>
 			<div>Test2</div>
 			<div>{data?.name}</div>
-			<button onClick={fetch}>refetch</button>
+			<button disabled={loading} onClick={fetch}>
+				refetch
+			</button>
 		</div>
 	);
 };
